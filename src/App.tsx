@@ -1,8 +1,8 @@
-import Header from "./components/Header";
-import SearchForm from "./components/SearchForm";
-import PopularRoutes from "./components/PopularRoutes";
-import Features from "./components/Features";
-import TicketDemo from "./components/TicketDemo";
+import Header from "./components/Header/Header";
+import SearchForm from "./components/SearchTicket/SearchTicketForm";
+import PopularRoutes from "./components/PopularRoutes/PopularRoutes";
+import Features from "./components/Features/Features";
+import TicketDemo from "./components/Ticket/TicketDemo";
 
 function App() {
   return (
