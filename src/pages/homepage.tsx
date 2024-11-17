@@ -4,10 +4,11 @@ import SearchForm from "../components/SearchTicket/SearchTicketForm";
 import PopularRoutes from "../components/PopularRoutes/PopularRoutes";
 import Features from "../components/Features/Features";
 import TicketDemo from "../components/Ticket/TicketDemo";
+import { Link } from "react-router-dom";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <>
       <div className="h-[500px] bg-gradient-to-br from-primary-800 to-primary-900 relative">
         <Header />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
@@ -32,6 +33,14 @@ export default function HomePage() {
               <h3 className="text-lg font-semibold mb-4">About TripBook</h3>
               <ul className="space-y-2">
                 <li>
+                  <Link
+                    to="/operator"
+                    className="text-gray-400 hover:text-white"
+                  >
+                    Operator Dashboard
+                  </Link>
+                </li>
+                <li>
                   <a href="#" className="text-gray-400 hover:text-white">
                     About Us
                   </a>
@@ -39,11 +48,6 @@ export default function HomePage() {
                 <li>
                   <a href="#" className="text-gray-400 hover:text-white">
                     Contact
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-gray-400 hover:text-white">
-                    Careers
                   </a>
                 </li>
               </ul>
@@ -114,6 +118,6 @@ export default function HomePage() {
           </div>
         </div>
       </footer>
-    </div>
+    </>
   );
 }
