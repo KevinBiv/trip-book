@@ -8,6 +8,7 @@ import {
   ArrowUpDown,
   Star,
 } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 
 interface Bus {
   id: string;
@@ -69,6 +70,13 @@ const buses: Bus[] = [
 ];
 
 export default function SearchResults() {
+  const navigate = useNavigate();
+
+  const handleClickSelectSeats = () => {
+    navigate("/select-seats");
+    console.log("Button clicked");
+  };
+
   const [sortBy, setSortBy] = useState("price");
   const [filterBusType, setFilterBusType] = useState("all");
 
@@ -239,9 +247,18 @@ export default function SearchResults() {
                   )}
                 </div>
 
-                <button className="bg-primary-600 text-white px-6 py-2 rounded-lg hover:bg-primary-500 transition-colors">
+                <button
+                  onClick={handleClickSelectSeats}
+                  className="bg-primary-600 text-white px-6 py-2 rounded-lg hover:bg-primary-500 transition-colors"
+                >
                   Select Seats ({bus.seatsAvailable})
                 </button>
+                {/* <Link
+                  to="/select-seats"
+                  className="bg-primary-600 text-white px-6 py-2 rounded-lg hover:bg-primary-500 transition-colors"
+                >
+                  Select Seats
+                </Link> */}
               </div>
             </div>
           </div>

@@ -1,5 +1,6 @@
 import React from "react";
 import { Clock, MapPin } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface BookingSummaryProps {
   selectedSeats: string[];
@@ -18,9 +19,14 @@ export default function BookingSummary({
   selectedSeats,
   busDetails,
 }: BookingSummaryProps) {
+  const navigate = useNavigate();
   const subtotal = selectedSeats.length * busDetails.price;
   const tax = subtotal * 0.1; // 10% tax
   const total = subtotal + tax;
+
+  const handleProceedToPayment = () => {
+    navigate("/payment");
+  };
 
   return (
     <div className="bg-white rounded-lg shadow-sm p-6">
@@ -79,6 +85,7 @@ export default function BookingSummary({
       </div>
 
       <button
+        onClick={handleProceedToPayment}
         disabled={selectedSeats.length === 0}
         className={`w-full mt-6 py-3 rounded-lg text-white font-medium
           ${
