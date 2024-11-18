@@ -1,0 +1,84 @@
+{
+    "navigation": {
+      "home": "Home",
+      "myBookings": "My Bookings",
+      "login": "Login",
+      "register": "Register"
+    },
+    "home": {
+      "title": "Book Your Bus Journey",
+      "subtitle": "Travel comfortably with the largest bus booking platform",
+      "search": {
+        "from": "From",
+        "to": "To",
+        "date": "Date",
+        "searchButton": "Search Buses"
+      }
+    },
+    "booking": {
+      "payment": {
+        "title": "Select Payment Method",
+        "creditCard": "Credit Card",
+        "debitCard": "Debit Card",
+        "momo": "MTN Mobile Money",
+        "cardDetails": "Card Details",
+        "cardNumber": "Card Number",
+        "cardholderName": "Cardholder Name",
+        "expiryDate": "Expiry Date",
+        "cvv": "CVV",
+        "payNow": "Pay Now"
+      },
+      "confirmation": {
+        "processing": "Processing Payment",
+        "success": "Payment Successful!",
+        "ticketBooked": "Your ticket has been booked",
+        "failed": "Payment Failed",
+        "tryAgain": "Try Again",
+        "thankYou": "Thank You for Booking with TripBook!",
+        "successMessage": "Your ticket has been booked successfully. We hope you have a pleasant journey.",
+        "backToHome": "Back to Homepage"
+      }
+    },
+    "myBookings": {
+      "title": "My Bookings",
+      "subtitle": "Manage your trips and view booking history",
+      "search": "Search bookings...",
+      "filters": {
+        "all": "All",
+        "upcoming": "Upcoming",
+        "completed": "Completed",
+        "cancelled": "Cancelled"
+      },
+      "ticket": {
+        "viewTicket": "View Ticket",
+        "ticketDetails": "Ticket Details",
+        "close": "Close"
+      }
+    },
+    "footer": {
+      "about": {
+        "title": "About TripBook",
+        "operator": "Operator Dashboard",
+        "aboutUs": "About Us",
+        "contact": "Contact"
+      },
+      "services": {
+        "title": "Services",
+        "busTickets": "Bus Tickets",
+        "packageDeals": "Package Deals",
+        "giftCards": "Gift Cards"
+      },
+      "help": {
+        "title": "Help",
+        "faqs": "FAQs",
+        "support": "Support",
+        "terms": "Terms"
+      },
+      "connect": {
+        "title": "Connect",
+        "facebook": "Facebook",
+        "twitter": "Twitter",
+        "instagram": "Instagram"
+      }
+    }
+  }

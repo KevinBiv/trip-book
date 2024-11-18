@@ -1,31 +1,34 @@
-import { Bus, UserCircle2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "../LanguageSwitcher/LanguageSwitcher";
 
 export default function Header() {
+  const { t } = useTranslation();
+
   return (
-    <header className="bg-primary-800 text-white">
+    <header className="bg-transparent absolute top-0 left-0 right-0 z-10">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
+        <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
-            <Bus className="h-8 w-8" />
-            <span className="ml-2 text-xl font-bold">TripBook</span>
+            <Link to="/" className="text-white text-xl font-bold">
+              TripBook
+            </Link>
           </div>
+
           <div className="flex items-center space-x-4">
-            <a href="#" className="hover:text-primary-200">
-              <Link
-                to="/my-bookings"
-                className="text-white hover:text-primary-100"
-              >
-                My Bookings
-              </Link>
-            </a>
-            <a href="#" className="hover:text-primary-200">
-              Support
-            </a>
-            <button className="flex items-center space-x-2 bg-primary-700 px-4 py-2 rounded-lg hover:bg-primary-600">
-              <UserCircle2 className="h-5 w-5" />
-              <span>Login</span>
-            </button>
+            <Link
+              to="/my-bookings"
+              className="text-white hover:text-primary-100"
+            >
+              {t("navigation.myBookings")}
+            </Link>
+            <Link to="/login" className="text-white hover:text-primary-100">
+              {t("navigation.login")}
+            </Link>
+            <Link to="/register" className="text-white hover:text-primary-100">
+              {t("navigation.register")}
+            </Link>
+            <LanguageSwitcher />
           </div>
         </div>
       </nav>

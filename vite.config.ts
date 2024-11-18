@@ -7,4 +7,8 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
+  // Handle JSON imports for translations
+  json: {
+    stringify: true,
+  },
 });

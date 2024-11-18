@@ -1,0 +1,84 @@
+{
+    "navigation": {
+      "home": "Ahabanza",
+      "myBookings": "Aho Nafashe Tiketi",
+      "login": "Injira",
+      "register": "Iyandikishe"
+    },
+    "home": {
+      "title": "Fata Tiketi y'Urugendo",
+      "subtitle": "Genda mu buryo bworoshye mu rugendo rwawe",
+      "search": {
+        "from": "Aho Uturuka",
+        "to": "Aho Ujya",
+        "date": "Itariki",
+        "searchButton": "Shakisha Bisi"
+      }
+    },
+    "booking": {
+      "payment": {
+        "title": "Hitamo Uburyo bwo Kwishyura",
+        "creditCard": "Ikarita yo Kwishyura",
+        "debitCard": "Ikarita yo Kwishyura",
+        "momo": "MTN Mobile Money",
+        "cardDetails": "Ibikubiye muri Karita",
+        "cardNumber": "Numero ya Karita",
+        "cardholderName": "Izina riri kuri Karita",
+        "expiryDate": "Itariki izarangiriraho",
+        "cvv": "CVV",
+        "payNow": "Ishyura Nonaha"
+      },
+      "confirmation": {
+        "processing": "Kwishyura Birimo Gukorwa",
+        "success": "Wishyuye neza!",
+        "ticketBooked": "Tiketi yawe yafashwe",
+        "failed": "Kwishyura Ntibyakunze",
+        "tryAgain": "Ongera Ugerageze",
+        "thankYou": "Urakoze guhitamo TripBook!",
+        "successMessage": "Tiketi yawe yafashwe neza. Turifuza urugendo rwiza.",
+        "backToHome": "Subira ku Ipaji y'Ibanze"
+      }
+    },
+    "myBookings": {
+      "title": "Tiketi Zanjye",
+      "subtitle": "Kosora no kureba amatike yawe",
+      "search": "Shakisha tiketi...",
+      "filters": {
+        "all": "Zose",
+        "upcoming": "Zitararangira",
+        "completed": "Zarangiye",
+        "cancelled": "Zahagaritswe"
+      },
+      "ticket": {
+        "viewTicket": "Reba Tiketi",
+        "ticketDetails": "Ibisobanuro bya Tiketi",
+        "close": "Funga"
+      }
+    },
+    "footer": {
+      "about": {
+        "title": "Kuri TripBook",
+        "operator": "Konti y'Umuyobozi",
+        "aboutUs": "Turi bande",
+        "contact": "Twandikire"
+      },
+      "services": {
+        "title": "Serivisi",
+        "busTickets": "Tiketi za Bisi",
+        "packageDeals": "Ibicuruzwa Byihariye",
+        "giftCards": "Impano za Karita"
+      },
+      "help": {
+        "title": "Ubufasha",
+        "faqs": "Ibibazo Bikunze Kubazwa",
+        "support": "Ubufasha",
+        "terms": "Amabwiriza"
+      },
+      "connect": {
+        "title": "Dukurikire",
+        "facebook": "Facebook",
+        "twitter": "Twitter",
+        "instagram": "Instagram"
+      }
+    }
+  }

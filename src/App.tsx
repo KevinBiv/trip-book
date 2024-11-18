@@ -8,16 +8,14 @@ import MyBookings from "./pages/my-bookings";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/my-bookings" element={<MyBookings />} />
-        <Route path="/search-results" element={<SearchResults />} />
-        <Route path="/select-seats" element={<SeatSelection />} />
-        <Route path="/payment" element={<Payment />} />
-        <Route path="/confirmation" element={<ConfirmationPage />} />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/my-bookings" element={<MyBookings />} />
+      <Route path="/search-results" element={<SearchResults />} />
+      <Route path="/select-seats" element={<SeatSelection />} />
+      <Route path="/payment" element={<Payment />} />
+      <Route path="/confirmation" element={<ConfirmationPage />} />
+    </Routes>
   );
 }
 
