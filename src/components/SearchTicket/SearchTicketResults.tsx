@@ -8,6 +8,7 @@ import {
   Star,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import ModifySearchModal from "../ModifySearch/ModifySearchModal";
 
 interface Bus {
   id: string;
@@ -69,6 +70,15 @@ const buses: Bus[] = [
 ];
 
 export default function SearchResults() {
+  const [isModifySearchOpen, setIsModifySearchOpen] = useState(false);
+
+  // Current search details - in a real app, this would come from your state management
+  const currentSearch = {
+    from: "New York",
+    to: "Boston",
+    date: "2024-03-15",
+  };
+
   const navigate = useNavigate();
 
   const handleClickSelectSeats = () => {
@@ -97,18 +107,30 @@ export default function SearchResults() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Search Summary */}
       <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900">
-              New York to Boston
-            </h2>
-            <p className="text-gray-600">Wed, 15 Mar • 3 buses available</p>
+        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900">
+                {currentSearch.from} to {currentSearch.to}
+              </h2>
+              <p className="text-gray-600">Wed, 15 Mar • 3 buses available</p>
+            </div>
+            <button
+              onClick={() => setIsModifySearchOpen(true)}
+              className="bg-primary-100 text-primary-600 px-4 py-2 rounded-lg hover:bg-primary-200 transition-colors"
+            >
+              Modify Search
+            </button>
           </div>
-          <button className="bg-primary-100 text-primary-600 px-4 py-2 rounded-lg hover:bg-primary-200 transition-colors">
-            Modify Search
-          </button>
         </div>
       </div>
+
+      {/* Modify Search Modal */}
+      <ModifySearchModal
+        isOpen={isModifySearchOpen}
+        onClose={() => setIsModifySearchOpen(false)}
+        currentSearch={currentSearch}
+      />
 
       {/* Filters and Sort */}
       <div className="flex justify-between mb-6">
