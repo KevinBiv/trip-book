@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import SeatMap from "../components/SeatSelection/SeatMap";
 import PassengerDetails from "../components/SeatSelection/PassengerDetails";
 import BookingSummary from "../components/SeatSelection/BookingSummary";

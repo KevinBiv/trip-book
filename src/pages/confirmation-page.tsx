@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import PaymentStatus from "../components/Payment/PaymentStatus";
 import { Home } from "lucide-react";

@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
-  Clock,
   Wifi,
   Coffee,
   ChevronDown,
@@ -8,7 +7,7 @@ import {
   ArrowUpDown,
   Star,
 } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface Bus {
   id: string;

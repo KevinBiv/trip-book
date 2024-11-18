@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { CreditCard, Wallet, Phone, Shield } from "lucide-react";
+import { useState } from "react";
+import { CreditCard, Phone, Shield } from "lucide-react";
 import PaymentForm from "../components/Payment/PaymentForm";
 import PaymentSummary from "../components/Payment/PaymentSummary";
 

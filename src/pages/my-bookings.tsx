@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Calendar,
-  MapPin,
-  Clock,
-  MoreVertical,
-  Filter,
-  Search,
-  Bus,
-} from "lucide-react";
+import { Calendar, Clock, Search, Bus } from "lucide-react";
 import Ticket from "../components/Ticket/Ticket";
 
 interface Booking {

@@ -1,13 +1,12 @@
-import React from "react";
 import { Clock, MapPin, AlertCircle } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 export default function PaymentSummary() {
-  const navigate = useNavigate();
+  //   const navigate = useNavigate();
 
-  const handlePayment = () => {
-    navigate("/confirmation");
-  };
+  //   const handlePayment = () => {
+  //     navigate("/confirmation");
+  //   };
 
   return (
     <div className="bg-white rounded-lg shadow-sm p-6">
