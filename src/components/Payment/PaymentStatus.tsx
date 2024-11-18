@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { CheckCircle, XCircle, Loader2 } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import { CheckCircle, XCircle, Loader2, Download } from "lucide-react";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 import Ticket from "../Ticket/Ticket";
 
 interface PaymentStatusProps {
@@ -14,6 +16,8 @@ const PaymentStatus: React.FC<PaymentStatusProps> = ({
   const [status, setStatus] = useState<"processing" | "success" | "error">(
     "processing"
   );
+  const [isDownloading, setIsDownloading] = useState(false);
+  const ticketRef = useRef<HTMLDivElement>(null);
 
   // Simulate payment processing
   useEffect(() => {
@@ -23,7 +27,6 @@ const PaymentStatus: React.FC<PaymentStatusProps> = ({
     return () => clearTimeout(timer);
   }, []);
 
-  // Mock ticket data - in a real app, this would come from your backend
   const ticketData = {
     ticketId: "TB12345",
     from: "New York",
@@ -33,6 +36,60 @@ const PaymentStatus: React.FC<PaymentStatusProps> = ({
     passengerName: "John Doe",
     seatNumber: "A12",
     price: 45,
+  };
+
+  const handleDownload = async () => {
+    if (!ticketRef.current) return;
+
+    try {
+      setIsDownloading(true);
+
+      // Configure html2canvas with proper dimensions and scaling
+      const canvas = await html2canvas(ticketRef.current, {
+        scale: 2, // Higher scale for better quality
+        useCORS: true, // Enable CORS for images
+        backgroundColor: "#ffffff",
+        width: ticketRef.current.offsetWidth,
+        height: ticketRef.current.offsetHeight,
+        // Add some padding to ensure nothing is cut off
+        x: -10,
+        y: -10,
+        windowWidth: ticketRef.current.offsetWidth + 20,
+        windowHeight: ticketRef.current.offsetHeight + 20,
+      });
+
+      // Calculate dimensions for PDF
+      const imgWidth = 210; // A4 width in mm
+      const pageHeight = 297; // A4 height in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      // Create PDF with proper dimensions
+      const pdf = new jsPDF({
+        orientation: imgHeight > pageHeight ? "portrait" : "portrait",
+        unit: "mm",
+        format: "a4",
+      });
+
+      // Add image to PDF with proper positioning
+      const position = 0;
+      pdf.addImage(
+        canvas.toDataURL("image/png", 1.0),
+        "PNG",
+        0,
+        position,
+        imgWidth,
+        imgHeight,
+        "",
+        "FAST"
+      );
+
+      // Download the PDF
+      pdf.save(`TripBook-Ticket-${ticketData.ticketId}.pdf`);
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+    } finally {
+      setIsDownloading(false);
+    }
   };
 
   if (status === "processing") {
@@ -96,12 +153,34 @@ const PaymentStatus: React.FC<PaymentStatusProps> = ({
         </div>
 
         {/* Ticket Component */}
-        <Ticket {...ticketData} />
+        <div ref={ticketRef} className="p-4">
+          {" "}
+          {/* Added padding */}
+          <div className="bg-white rounded-lg overflow-hidden">
+            {" "}
+            {/* Ensure content doesn't overflow */}
+            <Ticket {...ticketData} />
+          </div>
+        </div>
 
         {/* Action Buttons */}
         <div className="mt-6 space-y-3">
-          <button className="w-full bg-primary-600 text-white py-2 px-4 rounded-lg hover:bg-primary-700">
-            Download Ticket
+          <button
+            onClick={handleDownload}
+            disabled={isDownloading}
+            className="w-full bg-primary-600 text-white py-2 px-4 rounded-lg hover:bg-primary-700 disabled:bg-primary-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+          >
+            {isDownloading ? (
+              <>
+                <Loader2 className="animate-spin h-5 w-5" />
+                <span>Generating PDF...</span>
+              </>
+            ) : (
+              <>
+                <Download className="h-5 w-5" />
+                <span>Download Ticket</span>
+              </>
+            )}
           </button>
           <button
             onClick={onClose}
