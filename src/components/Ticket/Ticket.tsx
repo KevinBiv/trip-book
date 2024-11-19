@@ -1,6 +1,7 @@
-import React from 'react';
-import { QRCodeSVG } from 'qrcode.react';
-import { Bus, Calendar, MapPin, Clock, User } from 'lucide-react';
+// components/Ticket/Ticket.tsx
+import React from "react";
+import { QRCodeSVG } from "qrcode.react";
+import { Bus, Calendar, MapPin, Clock, User } from "lucide-react";
 
 interface TicketProps {
   ticketId: string;
@@ -9,8 +10,12 @@ interface TicketProps {
   date: string;
   time: string;
   passengerName: string;
-  seatNumber: string;
+  seatNumber: string; // Can handle multiple seats as a comma-separated string
   price: number;
+  busInfo?: {
+    type: string;
+    plateNumber: string;
+  };
 }
 
 export default function Ticket({
@@ -21,7 +26,8 @@ export default function Ticket({
   time,
   passengerName,
   seatNumber,
-  price
+  price,
+  busInfo,
 }: TicketProps) {
   const ticketData = JSON.stringify({
     ticketId,
@@ -31,6 +37,7 @@ export default function Ticket({
     time,
     passengerName,
     seatNumber,
+    busInfo,
   });
 
   return (
@@ -44,6 +51,11 @@ export default function Ticket({
           </div>
           <span className="text-sm">Ticket #{ticketId}</span>
         </div>
+        {busInfo && (
+          <div className="mt-2 text-sm opacity-80">
+            {busInfo.type} • {busInfo.plateNumber}
+          </div>
+        )}
       </div>
 
       {/* Ticket Body */}
@@ -107,12 +119,16 @@ export default function Ticket({
         {/* Ticket Footer */}
         <div className="flex justify-between items-center pt-4 border-t border-gray-200">
           <div>
-            <p className="text-sm text-gray-500">Seat Number</p>
+            <p className="text-sm text-gray-500">
+              {seatNumber.includes(",") ? "Seat Numbers" : "Seat Number"}
+            </p>
             <p className="font-bold text-lg">{seatNumber}</p>
           </div>
           <div className="text-right">
             <p className="text-sm text-gray-500">Price</p>
-            <p className="font-bold text-lg text-primary-600">${price}</p>
+            <p className="font-bold text-lg text-primary-600">
+              {price.toLocaleString()} Rwf
+            </p>
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { CheckCircle, XCircle, Loader2, Download } from "lucide-react";
+import { useLocation } from "react-router-dom";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import Ticket from "../Ticket/Ticket";
@@ -18,8 +19,9 @@ const PaymentStatus: React.FC<PaymentStatusProps> = ({
   );
   const [isDownloading, setIsDownloading] = useState(false);
   const ticketRef = useRef<HTMLDivElement>(null);
+  const location = useLocation();
+  const bookingData = location.state;
 
-  // Simulate payment processing
   useEffect(() => {
     const timer = setTimeout(() => {
       setStatus("success");
@@ -27,15 +29,30 @@ const PaymentStatus: React.FC<PaymentStatusProps> = ({
     return () => clearTimeout(timer);
   }, []);
 
+  // Generate a random ticket ID
+  const generateTicketId = () => {
+    return "TB" + Math.random().toString(36).substr(2, 6).toUpperCase();
+  };
+
   const ticketData = {
-    ticketId: "TB12345",
-    from: "New York",
-    to: "Boston",
-    date: "2024-03-15",
-    time: "10:30 AM",
-    passengerName: "John Doe",
-    seatNumber: "A12",
-    price: 45,
+    ticketId: generateTicketId(),
+    from: bookingData.schedule.from,
+    to: bookingData.schedule.to,
+    date: bookingData.formattedDate,
+    // Combine departure time for the time field
+    time: bookingData.schedule.departureTime,
+    // Use "Guest" as default passenger name or get it from form if you have it
+    passengerName: "Guest",
+    // Use first seat if single, or combine if multiple
+    seatNumber: bookingData.selectedSeats
+      .map((seat: string) => seat.split("-")[1])
+      .join(", "),
+    price: bookingData.paymentDetails.total,
+    // Optional bus info if you want to use it
+    busInfo: {
+      type: bookingData.schedule.bus.type,
+      plateNumber: bookingData.schedule.bus.plateNumber,
+    },
   };
 
   const handleDownload = async () => {
@@ -44,46 +61,39 @@ const PaymentStatus: React.FC<PaymentStatusProps> = ({
     try {
       setIsDownloading(true);
 
-      // Configure html2canvas with proper dimensions and scaling
       const canvas = await html2canvas(ticketRef.current, {
-        scale: 2, // Higher scale for better quality
-        useCORS: true, // Enable CORS for images
+        scale: 2,
+        useCORS: true,
         backgroundColor: "#ffffff",
         width: ticketRef.current.offsetWidth,
         height: ticketRef.current.offsetHeight,
-        // Add some padding to ensure nothing is cut off
         x: -10,
         y: -10,
         windowWidth: ticketRef.current.offsetWidth + 20,
         windowHeight: ticketRef.current.offsetHeight + 20,
       });
 
-      // Calculate dimensions for PDF
-      const imgWidth = 210; // A4 width in mm
-      const pageHeight = 297; // A4 height in mm
+      const imgWidth = 210;
+      const pageHeight = 297;
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-      // Create PDF with proper dimensions
       const pdf = new jsPDF({
         orientation: imgHeight > pageHeight ? "portrait" : "portrait",
         unit: "mm",
         format: "a4",
       });
 
-      // Add image to PDF with proper positioning
-      const position = 0;
       pdf.addImage(
         canvas.toDataURL("image/png", 1.0),
         "PNG",
         0,
-        position,
+        0,
         imgWidth,
         imgHeight,
         "",
         "FAST"
       );
 
-      // Download the PDF
       pdf.save(`TripBook-Ticket-${ticketData.ticketId}.pdf`);
     } catch (error) {
       console.error("Error generating PDF:", error);
@@ -141,7 +151,6 @@ const PaymentStatus: React.FC<PaymentStatusProps> = ({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
       <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
-        {/* Success Header */}
         <div className="flex items-center space-x-4 mb-6">
           <CheckCircle className="w-8 h-8 text-green-500" />
           <div>
@@ -152,18 +161,12 @@ const PaymentStatus: React.FC<PaymentStatusProps> = ({
           </div>
         </div>
 
-        {/* Ticket Component */}
         <div ref={ticketRef} className="p-4">
-          {" "}
-          {/* Added padding */}
           <div className="bg-white rounded-lg overflow-hidden">
-            {" "}
-            {/* Ensure content doesn't overflow */}
             <Ticket {...ticketData} />
           </div>
         </div>
 
-        {/* Action Buttons */}
         <div className="mt-6 space-y-3">
           <button
             onClick={handleDownload}

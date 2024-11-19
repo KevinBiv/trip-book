@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Calendar, CreditCard, User, Lock } from "lucide-react";
 import MoMoPaymentForm from "../MobileMoney/MobileMoneyPaymentForm";
 
@@ -9,10 +9,19 @@ interface PaymentFormProps {
 
 export default function PaymentForm({ paymentMethod }: PaymentFormProps) {
   const navigate = useNavigate();
+  const location = useLocation();
+  const bookingData = location.state; // Get the booking data
+
+  // const handlePayment = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   navigate(`/confirmation?paymentMethod=${paymentMethod}`);
+  // };
 
   const handlePayment = (e: React.FormEvent) => {
     e.preventDefault();
-    navigate(`/confirmation?paymentMethod=${paymentMethod}`);
+    navigate(`/confirmation?paymentMethod=${paymentMethod}`, {
+      state: bookingData, // Pass the booking data to confirmation page
+    });
   };
 
   if (paymentMethod === "credit-card" || paymentMethod === "debit-card") {

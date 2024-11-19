@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import PaymentStatus from "../components/Payment/PaymentStatus";
 import { Home } from "lucide-react";
 
@@ -7,7 +7,13 @@ export default function ConfirmationPage() {
   const [showStatus, setShowStatus] = useState(true);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const location = useLocation();
   const paymentMethod = searchParams.get("paymentMethod") || "";
+
+  // Redirect if no booking data is present
+  if (!location.state) {
+    return navigate("/");
+  }
 
   const handleClose = () => {
     setShowStatus(false);
