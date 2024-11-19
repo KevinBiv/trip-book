@@ -1,30 +1,54 @@
-import { Clock, MapPin } from "lucide-react";
+// components/SeatSelection/BookingSummary.tsx
+import { Clock, MapPin, Bus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+
+interface Bus {
+  plateNumber: string;
+  driver: string;
+  type: string;
+  status: string;
+}
+
+interface Schedule {
+  id: string;
+  from: string;
+  to: string;
+  departureTime: string;
+  arrivalTime: string;
+  price: number;
+  status: string;
+  bus: Bus;
+}
 
 interface BookingSummaryProps {
   selectedSeats: string[];
-  busDetails: {
-    operator: string;
-    from: string;
-    to: string;
-    date: string;
-    departureTime: string;
-    arrivalTime: string;
-    price: number;
-  };
+  schedule: Schedule;
+  formattedDate: string;
 }
 
 export default function BookingSummary({
   selectedSeats,
-  busDetails,
+  schedule,
+  formattedDate,
 }: BookingSummaryProps) {
   const navigate = useNavigate();
-  const subtotal = selectedSeats.length * busDetails.price;
-  const tax = subtotal * 0.1; // 10% tax
-  const total = subtotal + tax;
+  const subtotal = selectedSeats.length * schedule.price;
+  // const tax = subtotal * 0.1; // 10% tax
+  const total = subtotal;
 
   const handleProceedToPayment = () => {
-    navigate("/payment");
+    navigate("/payment", {
+      state: {
+        schedule,
+        selectedSeats,
+        formattedDate,
+        paymentDetails: {
+          subtotal,
+          // tax,
+          total,
+        },
+      },
+    });
   };
 
   return (
@@ -34,33 +58,51 @@ export default function BookingSummary({
       <div className="space-y-4 mb-6">
         <div className="flex justify-between items-start">
           <div>
-            <p className="font-medium text-gray-900">{busDetails.operator}</p>
+            <p className="font-medium text-gray-900">
+              {schedule.from} → {schedule.to}
+            </p>
             <div className="flex items-center text-sm text-gray-600 mt-1">
               <MapPin className="h-4 w-4 mr-1" />
-              {busDetails.from} to {busDetails.to}
+              <span>{schedule.from}</span>
+              <span className="mx-2">to</span>
+              <span>{schedule.to}</span>
             </div>
           </div>
           <div className="text-right">
-            <p className="text-sm text-gray-600">{busDetails.date}</p>
+            <p className="text-sm text-gray-600">{formattedDate}</p>
             <div className="flex items-center text-sm text-gray-600 mt-1">
               <Clock className="h-4 w-4 mr-1" />
-              {busDetails.departureTime} - {busDetails.arrivalTime}
+              {schedule.departureTime} - {schedule.arrivalTime}
             </div>
+          </div>
+        </div>
+
+        {/* Bus Details */}
+        <div className="border-t border-gray-200 pt-4">
+          <div className="flex items-center text-sm text-gray-600">
+            <Bus className="h-4 w-4 mr-1" />
+            <span className="font-medium">{schedule.bus.type}</span>
+            <span className="mx-2">•</span>
+            <span>{schedule.bus.plateNumber}</span>
           </div>
         </div>
 
         <div className="border-t border-gray-200 pt-4">
           <p className="font-medium mb-2">Selected Seats</p>
-          <div className="flex flex-wrap gap-2">
-            {selectedSeats.map((seat) => (
-              <span
-                key={seat}
-                className="px-2 py-1 bg-primary-50 text-primary-600 rounded text-sm"
-              >
-                Seat {seat.split("-")[1]}
-              </span>
-            ))}
-          </div>
+          {selectedSeats.length > 0 ? (
+            <div className="flex flex-wrap gap-2">
+              {selectedSeats.map((seat) => (
+                <span
+                  key={seat}
+                  className="px-2 py-1 bg-primary-50 text-primary-600 rounded text-sm"
+                >
+                  Seat {seat.split("-")[1]}
+                </span>
+              ))}
+            </div>
+          ) : (
+            <p className="text-sm text-gray-500">No seats selected</p>
+          )}
         </div>
       </div>
 
@@ -69,16 +111,20 @@ export default function BookingSummary({
           <span className="text-gray-600">
             Subtotal ({selectedSeats.length} seats)
           </span>
-          <span className="text-gray-900">${subtotal}</span>
+          <span className="text-gray-900">{subtotal.toLocaleString()} Rwf</span>
         </div>
-        <div className="flex justify-between text-sm">
+        {/* <div className="flex justify-between text-sm">
           <span className="text-gray-600">Tax (10%)</span>
-          <span className="text-gray-900">${tax.toFixed(2)}</span>
-        </div>
+          <span className="text-gray-900">
+            {tax.toFixed(0).toLocaleString()} Rwf
+          </span>
+        </div> */}
         <div className="border-t border-gray-200 pt-2 mt-2">
           <div className="flex justify-between font-medium">
             <span>Total Amount</span>
-            <span className="text-primary-600">${total.toFixed(2)}</span>
+            <span className="text-primary-600">
+              {total.toFixed(0).toLocaleString()} Rwf
+            </span>
           </div>
         </div>
       </div>
@@ -93,7 +139,9 @@ export default function BookingSummary({
               : "bg-gray-300 cursor-not-allowed"
           } transition-colors`}
       >
-        Proceed to Payment
+        {selectedSeats.length === 0
+          ? "Select seats to continue"
+          : "Proceed to Payment"}
       </button>
     </div>
   );

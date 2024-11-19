@@ -69,6 +69,19 @@ export default function SearchResults() {
     });
   };
 
+  const handleSelectSeats = (schedule: Schedule) => {
+    // Make sure to pass the complete schedule object and the search date
+    navigate("/select-seats", {
+      state: {
+        schedule, // The complete schedule object from the API
+        date: location.state.date,
+        from: location.state.from,
+        to: location.state.to,
+      },
+    });
+    console.log("Go to seat-selection");
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Search Summary */}
@@ -212,7 +225,8 @@ export default function SearchResults() {
                 <button
                   className="bg-primary-600 text-white px-6 py-2 rounded-lg hover:bg-primary-500 transition-colors"
                   // onClick={() => navigate(`/select-seats/${schedule.id}`)}
-                  onClick={() => navigate(`/select-seats`)}
+                  // onClick={() => navigate(`/select-seats`)}
+                  onClick={() => handleSelectSeats(schedule)}
                 >
                   Select Seats
                 </button>

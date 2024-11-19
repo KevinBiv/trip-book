@@ -29,9 +29,11 @@ export default function SearchTicketForm() {
       }
 
       const searchResults = await response.json();
+      console.log("API Response:", searchResults); // Debug log
+
       navigate("/search-results", {
         state: {
-          searchResults,
+          searchResults, // This contains the schedules array
           from,
           to,
           date,

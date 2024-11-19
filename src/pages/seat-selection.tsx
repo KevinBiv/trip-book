@@ -1,20 +1,50 @@
+// pages/SeatSelection.tsx
 import { useState } from "react";
+import { useLocation, Navigate } from "react-router-dom";
 import SeatMap from "../components/SeatSelection/SeatMap";
 import PassengerDetails from "../components/SeatSelection/PassengerDetails";
 import BookingSummary from "../components/SeatSelection/BookingSummary";
 
-const busDetails = {
-  operator: "GreenLine Express",
-  from: "New York",
-  to: "Boston",
-  date: "Wed, 15 Mar 2024",
-  departureTime: "10:00 AM",
-  arrivalTime: "2:30 PM",
-  price: 45,
-};
+interface Bus {
+  plateNumber: string;
+  driver: string;
+  type: string;
+  status: string;
+}
+
+interface Schedule {
+  id: string;
+  from: string;
+  to: string;
+  departureTime: string;
+  arrivalTime: string;
+  price: number;
+  status: string;
+  bus: Bus;
+}
 
 export default function SeatSelection() {
   const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
+  const location = useLocation();
+
+  // Get schedule data from navigation state
+  const schedule = location.state?.schedule as Schedule;
+  const searchDate = location.state?.date;
+
+  // Debug log to verify data
+  console.log("SeatSelection Data:", { schedule, searchDate });
+
+  if (!schedule || !searchDate) {
+    return <Navigate to="/search-results" replace />;
+  }
+
+  // Format the date for display
+  const formattedDate = new Date(searchDate).toLocaleDateString("en-US", {
+    weekday: "short",
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
 
   const handleSeatSelect = (seatId: string) => {
     setSelectedSeats((prev) => {
@@ -32,35 +62,7 @@ export default function SeatSelection() {
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Progress Steps */}
-        <div className="mb-8">
-          <div className="flex justify-between items-center">
-            {[
-              "Search",
-              "Select Bus",
-              "Choose Seat",
-              "Payment",
-              "Confirmation",
-            ].map((step, index) => (
-              <div key={step} className="flex flex-col items-center">
-                <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                    index <= 2 ? "bg-primary-600 text-white" : "bg-gray-200"
-                  }`}
-                >
-                  {index + 1}
-                </div>
-                <span className="text-sm mt-2">{step}</span>
-              </div>
-            ))}
-          </div>
-          <div className="relative mt-2">
-            <div
-              className="absolute top-0 left-0 h-1 bg-primary-600"
-              style={{ width: "60%" }}
-            />
-            <div className="h-1 bg-gray-200 w-full" />
-          </div>
-        </div>
+        {/* ... your existing progress steps code ... */}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
@@ -74,7 +76,8 @@ export default function SeatSelection() {
           <div className="lg:col-span-1">
             <BookingSummary
               selectedSeats={selectedSeats}
-              busDetails={busDetails}
+              schedule={schedule}
+              formattedDate={formattedDate}
             />
           </div>
         </div>
