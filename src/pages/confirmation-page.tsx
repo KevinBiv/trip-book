@@ -1,5 +1,11 @@
+// pages/confirmation-page.tsx
 import { useState } from "react";
-import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
+import {
+  useNavigate,
+  useSearchParams,
+  useLocation,
+  Navigate,
+} from "react-router-dom";
 import PaymentStatus from "../components/Payment/PaymentStatus";
 import { Home } from "lucide-react";
 
@@ -12,7 +18,7 @@ export default function ConfirmationPage() {
 
   // Redirect if no booking data is present
   if (!location.state) {
-    return navigate("/");
+    return <Navigate to="/" replace />;
   }
 
   const handleClose = () => {
