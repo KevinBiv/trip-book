@@ -1,5 +1,7 @@
+// pages/Payment.tsx
 import { useState } from "react";
 import { CreditCard, Phone, Shield } from "lucide-react";
+import { useLocation, Navigate } from "react-router-dom";
 import PaymentForm from "../components/Payment/PaymentForm";
 import PaymentSummary from "../components/Payment/PaymentSummary";
 
@@ -11,6 +13,12 @@ const paymentMethods = [
 
 export default function Payment() {
   const [selectedMethod, setSelectedMethod] = useState("credit-card");
+  const location = useLocation();
+
+  // Redirect if no payment data is present
+  if (!location.state) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -103,7 +111,6 @@ export default function Payment() {
             </div>
           </div>
 
-          {/* Payment Summary */}
           <div className="lg:col-span-1">
             <PaymentSummary />
           </div>
