@@ -100,13 +100,8 @@ export default function PaymentForm({ paymentMethod }: PaymentFormProps) {
   }
 
   if (paymentMethod === "momo") {
-    return (
-      <MoMoPaymentForm
-        onSuccess={() => {
-          navigate(`/confirmation?paymentMethod=${paymentMethod}`);
-        }}
-      />
-    );
+    // Don't pass onSuccess anymore, handle navigation in MoMoPaymentForm
+    return <MoMoPaymentForm />;
   }
 
   return null;
