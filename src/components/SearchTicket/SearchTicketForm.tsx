@@ -5,9 +5,42 @@ import { useNavigate } from "react-router-dom";
 export default function SearchTicketForm() {
   const navigate = useNavigate();
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault(); // Prevent form submission
-    navigate("/search-results");
+  const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const from = formData.get("from") as string;
+    const to = formData.get("to") as string;
+    const date = formData.get("date") as string;
+
+    if (!from || !to || !date) {
+      alert("Please fill in all fields");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/schedules/search?from=${encodeURIComponent(
+          from
+        )}&to=${encodeURIComponent(to)}&date=${encodeURIComponent(date)}`
+      );
+
+      if (!response.ok) {
+        throw new Error("Search failed");
+      }
+
+      const searchResults = await response.json();
+      navigate("/search-results", {
+        state: {
+          searchResults,
+          from,
+          to,
+          date,
+        },
+      });
+    } catch (error) {
+      console.error("Search error:", error);
+      alert("Failed to search schedules. Please try again.");
+    }
   };
 
   return (
@@ -21,7 +54,9 @@ export default function SearchTicketForm() {
             <div className="relative">
               <MapPin className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
               <input
+                name="from"
                 type="text"
+                required
                 className="pl-10 w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                 placeholder="Departure city"
               />
@@ -35,7 +70,9 @@ export default function SearchTicketForm() {
             <div className="relative">
               <MapPin className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
               <input
+                name="to"
                 type="text"
+                required
                 className="pl-10 w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                 placeholder="Arrival city"
               />
@@ -49,7 +86,10 @@ export default function SearchTicketForm() {
             <div className="relative">
               <Calendar className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
               <input
+                name="date"
                 type="date"
+                required
+                min={new Date().toISOString().split("T")[0]}
                 className="pl-10 w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
               />
             </div>
