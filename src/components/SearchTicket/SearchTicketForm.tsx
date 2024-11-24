@@ -3,6 +3,8 @@ import { Calendar, MapPin } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export default function SearchTicketForm() {
+  const baseURL = "https://trip-book-backend.onrender.com";
+
   const navigate = useNavigate();
 
   const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -19,7 +21,7 @@ export default function SearchTicketForm() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/schedules/search?from=${encodeURIComponent(
+        `${baseURL}/api/schedules/search?from=${encodeURIComponent(
           from
         )}&to=${encodeURIComponent(to)}&date=${encodeURIComponent(date)}`
       );

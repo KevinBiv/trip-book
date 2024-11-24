@@ -4,6 +4,7 @@ import PopularRoutes from "../components/PopularRoutes/PopularRoutes";
 import Features from "../components/Features/Features";
 import TicketDemo from "../components/Ticket/TicketDemo";
 import { Link } from "react-router-dom";
+import FeedbackSection from "../components/Feedback/FeedbackSection";
 
 export default function HomePage() {
   return (
@@ -23,7 +24,8 @@ export default function HomePage() {
       <SearchForm />
       <PopularRoutes />
       <Features />
-      <TicketDemo />
+      {/* <TicketDemo /> */}
+      <FeedbackSection />
 
       <footer className="bg-gray-900 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
